@@ -64,7 +64,12 @@ function buildDashboardPayload(
     (tx) => tx.type === "EXPENSE" && isSameMonth(new Date(tx.date), new Date()),
   );
 
-  const categoryTotals = new Map<string, any>();
+  const categoryTotals = new Map<string, {
+    categoryName: string;
+    color: string;
+    icon: string | null;
+    amount: number;
+  }>();
   for (const tx of currentMonthExpenses) {
     const prev = categoryTotals.get(tx.category.id);
     categoryTotals.set(tx.category.id, {
@@ -122,7 +127,7 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
       prisma.debt.findMany({ where: { userId }, orderBy: { createdAt: "desc" } }),
     ]);
 
-    const normalizedCategories: Category[] = categories.map((c) => ({
+    const normalizedCategories: Category[] = categories.map((c: Category) => ({
       id: c.id,
       name: c.name,
       color: c.color,
