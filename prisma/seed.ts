@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { PrismaClient, TransactionType } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { subDays } from "date-fns";
 import { defaultCategories } from "../src/lib/default-categories";
 
@@ -68,7 +68,7 @@ async function main() {
   await prisma.transaction.createMany({
     data: [
       {
-        type: TransactionType.INCOME,
+        type: "INCOME",
         amount: "7200000",
         description: "Pago mensual",
         date: subDays(new Date(), 20),
@@ -76,7 +76,7 @@ async function main() {
         userId: demoUser.id,
       },
       {
-        type: TransactionType.EXPENSE,
+        type: "EXPENSE",
         amount: "190000",
         description: "Mercado semanal",
         date: subDays(new Date(), 15),
@@ -84,7 +84,7 @@ async function main() {
         userId: demoUser.id,
       },
       {
-        type: TransactionType.EXPENSE,
+        type: "EXPENSE",
         amount: "76000",
         description: "Uber y bus",
         date: subDays(new Date(), 13),
@@ -92,7 +92,7 @@ async function main() {
         userId: demoUser.id,
       },
       {
-        type: TransactionType.EXPENSE,
+        type: "EXPENSE",
         amount: "1800000",
         description: "Arriendo",
         date: subDays(new Date(), 10),
@@ -100,7 +100,7 @@ async function main() {
         userId: demoUser.id,
       },
       {
-        type: TransactionType.EXPENSE,
+        type: "EXPENSE",
         amount: "95000",
         description: "Cine",
         date: subDays(new Date(), 5),
@@ -108,7 +108,7 @@ async function main() {
         userId: demoUser.id,
       },
       {
-        type: TransactionType.INCOME,
+        type: "INCOME",
         amount: "1400000",
         description: "Freelance landing page",
         date: subDays(new Date(), 2),
@@ -132,3 +132,4 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+
