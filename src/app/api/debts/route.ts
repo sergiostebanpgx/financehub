@@ -3,7 +3,6 @@ import { getUserIdOrUnauthorized } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
 import { serializeDebt } from "@/lib/serializers";
 import { createDebtSchema, getValidationMessage } from "@/lib/validators";
-import { Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -41,8 +40,8 @@ export async function POST(request: Request) {
     const debt = await prisma.debt.create({
       data: {
         name: payload.name,
-        totalAmount: new Prisma.Decimal(payload.totalAmount),
-        paidAmount: new Prisma.Decimal(payload.paidAmount ?? 0),
+        totalAmount: payload.totalAmount,
+        paidAmount: payload.paidAmount ?? 0,
         userId,
       },
     });

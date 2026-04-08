@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { getUserIdOrUnauthorized } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
@@ -64,7 +63,7 @@ export async function POST(request: Request) {
     const transaction = await prisma.transaction.create({
       data: {
         type: payload.type,
-        amount: new Prisma.Decimal(payload.amount),
+        amount: payload.amount,
         description: payload.description,
         date: payload.date,
         notes: payload.notes,

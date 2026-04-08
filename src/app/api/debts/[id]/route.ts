@@ -3,7 +3,6 @@ import { getUserIdOrUnauthorized } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
 import { serializeDebt } from "@/lib/serializers";
 import { getValidationMessage, updateDebtSchema } from "@/lib/validators";
-import { Prisma } from "@prisma/client";
 
 type Context = {
   params: Promise<{
@@ -13,8 +12,8 @@ type Context = {
 
 type DebtUpdateData = {
   name?: string;
-  totalAmount?: Prisma.Decimal;
-  paidAmount?: Prisma.Decimal;
+  totalAmount?: number;
+  paidAmount?: number;
 };
 
 export const dynamic = "force-dynamic";
@@ -45,8 +44,8 @@ export async function PATCH(request: Request, context: Context) {
     const data: DebtUpdateData = {};
 
     if (payload.name !== undefined) data.name = payload.name;
-    if (payload.totalAmount !== undefined) data.totalAmount = new Prisma.Decimal(payload.totalAmount);
-    if (payload.paidAmount !== undefined) data.paidAmount = new Prisma.Decimal(payload.paidAmount);
+    if (payload.totalAmount !== undefined) data.totalAmount = payload.totalAmount;
+    if (payload.paidAmount !== undefined) data.paidAmount = payload.paidAmount;
 
     const updated = await prisma.debt.update({
       where: { id },

@@ -3,7 +3,6 @@ import { getUserIdOrUnauthorized } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
 import { serializeSavingGoal } from "@/lib/serializers";
 import { createSavingGoalSchema, getValidationMessage } from "@/lib/validators";
-import { Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -41,8 +40,8 @@ export async function POST(request: Request) {
     const goal = await prisma.savingGoal.create({
       data: {
         name: payload.name,
-        targetAmount: new Prisma.Decimal(payload.targetAmount),
-        savedAmount: new Prisma.Decimal(payload.savedAmount ?? 0),
+        targetAmount: payload.targetAmount,
+        savedAmount: payload.savedAmount ?? 0,
         userId,
       },
     });

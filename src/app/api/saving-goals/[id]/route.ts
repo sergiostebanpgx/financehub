@@ -3,7 +3,6 @@ import { getUserIdOrUnauthorized } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
 import { serializeSavingGoal } from "@/lib/serializers";
 import { getValidationMessage, updateSavingGoalSchema } from "@/lib/validators";
-import { Prisma } from "@prisma/client";
 
 type Context = {
   params: Promise<{
@@ -13,8 +12,8 @@ type Context = {
 
 type SavingGoalUpdateData = {
   name?: string;
-  targetAmount?: Prisma.Decimal;
-  savedAmount?: Prisma.Decimal;
+  targetAmount?: number;
+  savedAmount?: number;
 };
 
 export const dynamic = "force-dynamic";
@@ -45,8 +44,8 @@ export async function PATCH(request: Request, context: Context) {
     const data: SavingGoalUpdateData = {};
 
     if (payload.name !== undefined) data.name = payload.name;
-    if (payload.targetAmount !== undefined) data.targetAmount = new Prisma.Decimal(payload.targetAmount);
-    if (payload.savedAmount !== undefined) data.savedAmount = new Prisma.Decimal(payload.savedAmount);
+    if (payload.targetAmount !== undefined) data.targetAmount = payload.targetAmount;
+    if (payload.savedAmount !== undefined) data.savedAmount = payload.savedAmount;
 
     const updated = await prisma.savingGoal.update({
       where: { id },

@@ -1,4 +1,4 @@
-import { Prisma, type TransactionType } from "@prisma/client";
+import { type TransactionType } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { getUserIdOrUnauthorized } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
@@ -40,7 +40,7 @@ export async function PATCH(request: Request, context: Context) {
 
     if (payload.type) data.type = payload.type as TransactionType;
     if (payload.amount !== undefined) {
-      data.amount = new Prisma.Decimal(payload.amount);
+      data.amount = payload.amount;
     }
     if (payload.description !== undefined) data.description = payload.description;
     if (payload.date !== undefined) data.date = payload.date;
