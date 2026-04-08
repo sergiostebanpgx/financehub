@@ -11,6 +11,12 @@ type Context = {
   }>;
 };
 
+type SavingGoalUpdateData = {
+  name?: string;
+  targetAmount?: Prisma.Decimal;
+  savedAmount?: Prisma.Decimal;
+};
+
 export const dynamic = "force-dynamic";
 
 export async function PATCH(request: Request, context: Context) {
@@ -36,7 +42,7 @@ export async function PATCH(request: Request, context: Context) {
     }
 
     const payload = updateSavingGoalSchema.parse(await request.json());
-    const data: Prisma.SavingGoalUpdateInput = {};
+    const data: SavingGoalUpdateData = {};
 
     if (payload.name !== undefined) data.name = payload.name;
     if (payload.targetAmount !== undefined) data.targetAmount = new Prisma.Decimal(payload.targetAmount);

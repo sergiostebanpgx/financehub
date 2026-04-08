@@ -11,6 +11,12 @@ type Context = {
   }>;
 };
 
+type DebtUpdateData = {
+  name?: string;
+  totalAmount?: Prisma.Decimal;
+  paidAmount?: Prisma.Decimal;
+};
+
 export const dynamic = "force-dynamic";
 
 export async function PATCH(request: Request, context: Context) {
@@ -36,7 +42,7 @@ export async function PATCH(request: Request, context: Context) {
     }
 
     const payload = updateDebtSchema.parse(await request.json());
-    const data: Prisma.DebtUpdateInput = {};
+    const data: DebtUpdateData = {};
 
     if (payload.name !== undefined) data.name = payload.name;
     if (payload.totalAmount !== undefined) data.totalAmount = new Prisma.Decimal(payload.totalAmount);
