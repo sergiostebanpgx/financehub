@@ -1,9 +1,41 @@
-import { Prisma } from "@prisma/client";
 import { DashboardTransaction, SavingGoal, Debt } from "@/types/finance";
 
-type TransactionWithCategory = Prisma.TransactionGetPayload<{
-  include: { category: true };
-}>;
+type DecimalLike = {
+  toString(): string;
+};
+
+type TransactionWithCategory = {
+  id: string;
+  type: DashboardTransaction["type"];
+  amount: DecimalLike;
+  description: string;
+  date: Date;
+  notes: string | null;
+  category: {
+    id: string;
+    name: string;
+    color: string;
+    icon: string | null;
+  };
+};
+
+type SavingGoalRecord = {
+  id: string;
+  name: string;
+  targetAmount: DecimalLike;
+  savedAmount: DecimalLike;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type DebtRecord = {
+  id: string;
+  name: string;
+  totalAmount: DecimalLike;
+  paidAmount: DecimalLike;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 export function serializeTransaction(
   transaction: TransactionWithCategory,
@@ -24,7 +56,7 @@ export function serializeTransaction(
   };
 }
 
-export function serializeSavingGoal(goal: Prisma.SavingGoalGetPayload<{}>): SavingGoal {
+export function serializeSavingGoal(goal: SavingGoalRecord): SavingGoal {
   return {
     id: goal.id,
     name: goal.name,
@@ -35,7 +67,7 @@ export function serializeSavingGoal(goal: Prisma.SavingGoalGetPayload<{}>): Savi
   };
 }
 
-export function serializeDebt(debt: Prisma.DebtGetPayload<{}>): Debt {
+export function serializeDebt(debt: DebtRecord): Debt {
   return {
     id: debt.id,
     name: debt.name,
