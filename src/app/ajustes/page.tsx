@@ -1,9 +1,7 @@
 import { getServerSession } from "next-auth";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { GoalsDebtsPanel } from "@/components/goals-debts-panel";
+import { SettingsManager } from "@/components/settings-manager";
 import { SignOutButton } from "@/components/sign-out-button";
-import { TransactionsManager } from "@/components/transactions-manager";
 import { MobileNav } from "@/components/mobile-nav";
 import {
   CategoryWalletIcon,
@@ -11,32 +9,30 @@ import {
   SettingsIcon,
 } from "@/components/ui/pretty-icons";
 import { authOptions } from "@/lib/auth";
-import { getDashboardData } from "@/lib/dashboard-data";
-import { formatCurrency } from "@/lib/format";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 const navigationItems = [
-  { label: "Dashboard", icon: "dashboard", href: "/", active: true },
+  { label: "Dashboard", icon: "dashboard", href: "/", active: false },
   { label: "Categorías", icon: "categories", href: "/categorias", active: false },
-  { label: "Ajustes", icon: "settings", href: "/ajustes", active: false },
+  { label: "Ajustes", icon: "settings", href: "/ajustes", active: true },
 ];
 
-export default async function HomePage() {
+export default async function AjustesPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     redirect("/login");
   }
 
-  const dashboardData = await getDashboardData(session.user.id);
-
   const userName = session.user.name?.trim() || "Usuario";
+  const userEmail = session.user.email ?? "";
   const userInitial = userName.trim()[0]?.toUpperCase() ?? "U";
 
   return (
     <main className="dashboard-shell h-dvh bg-slate-950 text-slate-50 overflow-hidden flex flex-col lg:flex-row">
       
-      {/* Desktop Sidebar - Fixed Left */}
+      {/* Desktop Sidebar */}
       <aside className="hidden lg:flex flex-col w-[300px] h-full shrink-0 border-r border-white/5 p-8 bg-slate-950">
         <div className="flex items-center gap-3 px-2 mb-12">
           <span className="text-xl font-bold tracking-tight text-white">Finance<span className="text-cyan-400">Hub</span></span>
@@ -77,47 +73,22 @@ export default async function HomePage() {
         </div>
       </aside>
 
-      {/* Main Content Area - Scrollable */}
+      {/* Main Content Area */}
       <div className="flex-1 h-full overflow-y-auto custom-scrollbar">
         <div className="mx-auto w-full max-w-[1200px] px-4 py-6 sm:px-8 lg:px-10 space-y-10">
           
           <MobileNav items={navigationItems} userInitial={userInitial} />
 
           <section className="animate-slide-up">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-              <div>
-                <h1 className="text-4xl font-black tracking-tight sm:text-5xl">
-                  Hola, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">{userName}</span>
-                </h1>
-                <p className="text-slate-400 mt-2 font-medium">Aquí tienes el resumen de tu patrimonio hoy.</p>
-              </div>
-              <div className="bg-white/5 backdrop-blur-md border border-white/10 px-6 py-4 rounded-[2rem] shadow-xl">
-                <p className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-black">Patrimonio Neto</p>
-                <p className="text-3xl font-black text-white mt-1">{formatCurrency(dashboardData.summary.balance)}</p>
-              </div>
-            </div>
+            <h1 className="text-4xl font-black tracking-tight sm:text-5xl">
+              Configuración de <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Cuenta</span>
+            </h1>
+            <p className="text-slate-400 mt-2 font-medium">Personaliza tu perfil y protege tu información.</p>
           </section>
 
-          <GoalsDebtsPanel
-            balance={dashboardData.summary.balance}
-            monthBalance={dashboardData.summary.monthIncome - dashboardData.summary.monthExpense}
-            monthIncome={dashboardData.summary.monthIncome}
-            monthExpense={dashboardData.summary.monthExpense}
-            initialGoals={dashboardData.savingGoals}
-            initialDebts={dashboardData.debts}
-          />
-
-          <TransactionsManager 
-            categories={dashboardData.categories}
-            recentTransactions={dashboardData.recentTransactions}
-          />
-
-          {dashboardData.isDemoMode && (
-            <div className="bg-amber-500/10 border border-amber-500/20 text-amber-200 rounded-2xl px-6 py-4 text-sm flex items-center gap-3 font-medium">
-              <div className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
-              Modo demo activo: los datos se guardarán localmente hasta conectar la DB.
-            </div>
-          )}
+          <div className="animate-slide-up delay-100 pb-10">
+            <SettingsManager userName={userName} userEmail={userEmail} />
+          </div>
         </div>
       </div>
     </main>
