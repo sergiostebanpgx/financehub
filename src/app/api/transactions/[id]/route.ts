@@ -1,9 +1,9 @@
-import { type TransactionType } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { getUserIdOrUnauthorized } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
 import { serializeTransaction } from "@/lib/serializers";
 import { getValidationMessage, updateTransactionSchema } from "@/lib/validators";
+import { type TransactionType } from "@/types/finance";
 
 type Context = {
   params: Promise<{
