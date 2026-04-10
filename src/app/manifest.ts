@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "FinanceHub - Control de gastos",
-    short_name: "FinanceHub",
+    name: "FinanceHub Beta - Control de gastos",
+    short_name: "FinanceHub Beta",
     description: "Aplicación para administrar ingresos, gastos y metas financieras.",
     start_url: "/",
     scope: "/",

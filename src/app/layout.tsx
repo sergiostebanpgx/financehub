@@ -2,10 +2,10 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FinanceHub",
+  title: "FinanceHub Beta",
   description:
     "Aplicacion moderna para administrar ingresos, gastos y salud financiera.",
-  applicationName: "FinanceHub",
+  applicationName: "FinanceHub Beta",
   icons: {
     icon: [
       { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "FinanceHub",
+    title: "FinanceHub Beta",
   },
 };
 

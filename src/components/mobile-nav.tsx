@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { DashboardIcon, CategoryWalletIcon, SettingsIcon } from "@/components/ui/pretty-icons";
+import {
+  DashboardIcon,
+  CategoryWalletIcon,
+  SettingsIcon,
+} from "@/components/ui/pretty-icons";
 import { SignOutButton } from "@/components/sign-out-button";
 
 type NavItem = {
@@ -23,10 +27,14 @@ export function MobileNav({ items, userInitial }: MobileNavProps) {
   // Mapeo dinámico de iconos
   const getIcon = (iconName: string) => {
     switch (iconName) {
-      case "dashboard": return DashboardIcon;
-      case "categories": return CategoryWalletIcon;
-      case "settings": return SettingsIcon;
-      default: return SettingsIcon;
+      case "dashboard":
+        return DashboardIcon;
+      case "categories":
+        return CategoryWalletIcon;
+      case "settings":
+        return SettingsIcon;
+      default:
+        return SettingsIcon;
     }
   };
 
@@ -34,22 +42,37 @@ export function MobileNav({ items, userInitial }: MobileNavProps) {
     <>
       {/* Mobile Header */}
       <header className="flex items-center justify-between lg:hidden mb-6">
-        <button 
+        <button
           onClick={() => setIsOpen(true)}
           className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors"
           aria-label="Abrir menú"
         >
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </button>
-        
+
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold tracking-tight">FinanceHub</span>
+          <span className="text-lg font-bold tracking-tight text-white">
+            Finance<span className="text-cyan-400">Hub</span>
+          </span>
+          <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-1.5 py-0.5 text-[8px] font-black uppercase tracking-[0.22em] text-cyan-100/90">
+            BETA
+          </span>
         </div>
-        
+
         <div className="w-10 h-10 flex items-center justify-center">
-           <div className="h-8 w-8 rounded-full bg-slate-800 flex items-center justify-center text-xs font-bold border border-white/10 text-white">
+          <div className="h-8 w-8 rounded-full bg-slate-800 flex items-center justify-center text-xs font-bold border border-white/10 text-white">
             {userInitial}
           </div>
         </div>
@@ -57,23 +80,44 @@ export function MobileNav({ items, userInitial }: MobileNavProps) {
 
       {/* Overlay */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm lg:hidden animate-in fade-in duration-300"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Drawer */}
-      <aside className={`fixed top-0 left-0 z-50 h-full w-[280px] bg-slate-900 border-r border-white/5 p-6 transition-transform duration-300 ease-in-out lg:hidden ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      }`}>
+      <aside
+        className={`fixed top-0 left-0 z-50 h-full w-[280px] bg-slate-900 border-r border-white/5 p-6 transition-transform duration-300 ease-in-out lg:hidden ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         <div className="flex items-center justify-between mb-10">
-          <div className="flex items-center gap-3">
-            <span className="text-lg font-bold tracking-tight text-white">FinanceHub</span>
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-bold tracking-tight text-white">
+              Finance<span className="text-cyan-400">Hub</span>
+            </span>
+            <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-1.5 py-0.5 text-[8px] font-black uppercase tracking-[0.22em] text-cyan-100/90">
+              BETA
+            </span>
           </div>
-          <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white" aria-label="Cerrar menú">
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-slate-400 hover:text-white"
+            aria-label="Cerrar menú"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -87,7 +131,9 @@ export function MobileNav({ items, userInitial }: MobileNavProps) {
                 href={item.href}
                 onClick={() => setIsOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                  item.active ? "bg-cyan-500/10 text-cyan-400" : "text-slate-400 hover:bg-white/5"
+                  item.active
+                    ? "bg-cyan-500/10 text-cyan-400"
+                    : "text-slate-400 hover:bg-white/5"
                 }`}
               >
                 <Icon className="h-5 w-5" />

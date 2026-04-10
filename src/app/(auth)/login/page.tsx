@@ -13,8 +13,11 @@ export default async function LoginPage() {
     <main className="login-shell mx-auto flex min-h-dvh w-full max-w-7xl items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
       <section className="login-card w-full max-w-[460px] p-8 sm:p-10 animate-scale-in">
         <div className="text-center">
-          <p className="chip-badge mx-auto inline-flex px-5 py-2">
-            FinanceHub
+          <p className="chip-badge mx-auto inline-flex items-center gap-2 px-5 py-2">
+            <span>FinanceHub</span>
+            <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.22em] text-cyan-100/90">
+              BETA
+            </span>
           </p>
 
           <h1
