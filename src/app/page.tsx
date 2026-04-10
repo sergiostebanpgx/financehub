@@ -8,6 +8,7 @@ import { MobileNav } from "@/components/mobile-nav";
 import {
   CategoryWalletIcon,
   DashboardIcon,
+  ReportsIcon,
   SettingsIcon,
 } from "@/components/ui/pretty-icons";
 import { authOptions } from "@/lib/auth";
@@ -25,6 +26,13 @@ const navigationItems = [
     active: false,
   },
   { label: "Ajustes", icon: "settings", href: "/ajustes", active: false },
+  {
+    label: "Reportar bugs",
+    icon: "reports",
+    href: "https://github.com/sergiostebanpgx/financehub/issues/new",
+    active: false,
+    external: true,
+  },
 ];
 
 export default async function HomePage() {
@@ -58,11 +66,20 @@ export default async function HomePage() {
                 ? DashboardIcon
                 : item.icon === "categories"
                   ? CategoryWalletIcon
-                  : SettingsIcon;
+                  : item.icon === "reports"
+                    ? ReportsIcon
+                    : SettingsIcon;
             return (
               <Link
                 key={item.label}
                 href={item.href}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noreferrer noopener" : undefined}
+                aria-label={
+                  item.external
+                    ? `${item.label} (abre en una nueva pestaña)`
+                    : item.label
+                }
                 className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-200 group ${
                   item.active
                     ? "bg-white/10 text-cyan-400"

@@ -5,15 +5,17 @@ import Link from "next/link";
 import {
   DashboardIcon,
   CategoryWalletIcon,
+  ReportsIcon,
   SettingsIcon,
 } from "@/components/ui/pretty-icons";
 import { SignOutButton } from "@/components/sign-out-button";
 
 type NavItem = {
   label: string;
-  icon: string; // Cambiado a string
+  icon: string;
   href: string;
   active: boolean;
+  external?: boolean;
 };
 
 type MobileNavProps = {
@@ -33,6 +35,8 @@ export function MobileNav({ items, userInitial }: MobileNavProps) {
         return CategoryWalletIcon;
       case "settings":
         return SettingsIcon;
+      case "reports":
+        return ReportsIcon;
       default:
         return SettingsIcon;
     }
@@ -88,7 +92,7 @@ export function MobileNav({ items, userInitial }: MobileNavProps) {
 
       {/* Drawer */}
       <aside
-        className={`fixed top-0 left-0 z-50 h-full w-[280px] bg-slate-900 border-r border-white/5 p-6 transition-transform duration-300 ease-in-out lg:hidden ${
+        className={`fixed top-0 left-0 z-50 h-full w-70 bg-slate-900 border-r border-white/5 p-6 transition-transform duration-300 ease-in-out lg:hidden ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -129,6 +133,13 @@ export function MobileNav({ items, userInitial }: MobileNavProps) {
               <Link
                 key={`mobile-drawer-${item.label}`}
                 href={item.href}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noreferrer noopener" : undefined}
+                aria-label={
+                  item.external
+                    ? `${item.label} (abre en una nueva pestaña)`
+                    : item.label
+                }
                 onClick={() => setIsOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                   item.active
